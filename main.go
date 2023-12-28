@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jz0ojiang/go-maimai-player-counter/api"
 	"github.com/jz0ojiang/go-maimai-player-counter/conf"
+	"github.com/jz0ojiang/go-maimai-player-counter/middleware"
 )
 
 func main() {
@@ -12,6 +13,10 @@ func main() {
 	}
 
 	r := gin.Default()
+
+	// Middleware
+	r.Use(middleware.Cors())
+
 	// Province
 	r.GET("/getProvinceList", api.HandleGetProvinceList)
 
