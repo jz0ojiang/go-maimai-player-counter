@@ -17,6 +17,21 @@ type CountLog struct {
 // key: timestamp
 // value：Count.(json)
 
+// CountLog 以时间戳降序排列（最新的在前面）
+func GetLatestCountByArcadeID(arcadeID int) (int, error) {
+	counts, err := GetCountLogsByArcadeID(arcadeID)
+	if err != nil {
+		return 0, err
+	}
+	if len(counts) == 0 {
+		return 0, nil
+	}
+	sort.Slice(counts, func(i, j int) bool {
+		return counts[i].UpdateTimestamp > counts[j].UpdateTimestamp
+	})
+	return counts[0].Count, nil
+}
+
 // GetCountLogByTimeStamp 根据时间戳获取 CountLog
 func GetCountLogByTimeStamp(timestamp int64) (CountLog, error) {
 	var count CountLog

@@ -6,6 +6,23 @@ import (
 	"github.com/jz0ojiang/go-maimai-player-counter/db"
 )
 
+func GetCountsByCity(cityCode int) (map[string]int, error) {
+	arcades, err := GetArcadeListByCityCode(cityCode)
+	if err != nil {
+		return nil, err
+	}
+	var counts = make(map[string]int)
+	for _, arcade := range arcades {
+		count, err := db.GetLatestCountByArcadeID(arcade.ID)
+		if err != nil {
+			counts[arcade.Name] = -1
+			continue
+		}
+		counts[arcade.Name] = count
+	}
+	return counts, nil
+}
+
 type CountLog struct {
 	ArcadeId        int   `json:"arcade_id"`
 	Count           int   `json:"count"`

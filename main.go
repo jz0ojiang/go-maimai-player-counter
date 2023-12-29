@@ -35,6 +35,7 @@ func main() {
 
 	// Count
 	r.GET("/getCount/:arcadeID", api.HandleGetCountLogsByArcadeID)
+	r.GET("/getCountByCity/:cityCode", api.HandleGetCountLogsByCityCode)
 	r.POST("/logCount", api.HandlePostCountLog)
 
 	// Token

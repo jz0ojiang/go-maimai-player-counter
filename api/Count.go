@@ -32,6 +32,32 @@ func HandleGetCountLogsByArcadeID(c *gin.Context) {
 	})
 }
 
+func HandleGetCountLogsByCityCode(c *gin.Context) {
+	cityCode := c.Param("cityCode")
+	if cityCode == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"code": -1, "message": "cityCode is required"})
+		return
+	}
+	if len(cityCode) == 12 {
+		cityCode = cityCode[0:4]
+	}
+	cityCodeInt, err := strconv.ParseInt(cityCode, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"code": -1, "message": err.Error()})
+		return
+	}
+	counts, err := service.GetCountsByCity(int(cityCodeInt))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"code": -1, "message": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code":    0,
+		"message": "success",
+		"data":    counts,
+	})
+}
+
 type CountLogRequest struct {
 	ArcadeID int    `json:"arcade_id" binding:"required"`
 	Count    *int   `json:"count" binding:"required"`
