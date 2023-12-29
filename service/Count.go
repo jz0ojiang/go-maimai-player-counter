@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"strconv"
 
 	"github.com/jz0ojiang/go-maimai-player-counter/db"
 )
@@ -15,10 +16,10 @@ func GetCountsByCity(cityCode int) (map[string]int, error) {
 	for _, arcade := range arcades {
 		count, err := db.GetLatestCountByArcadeID(arcade.ID)
 		if err != nil {
-			counts[arcade.Name] = -1
+			counts[strconv.Itoa(arcade.ID)] = 0
 			continue
 		}
-		counts[arcade.Name] = count
+		counts[strconv.Itoa(arcade.ID)] = count
 	}
 	return counts, nil
 }
