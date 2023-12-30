@@ -7,11 +7,13 @@ import (
 )
 
 type ConfigStruct struct {
-	Database       DatabaseStruct `json:"database"`
-	HCaptchaSecret string         `json:"hcaptcha_secret"`
-	TotpSecret     string         `json:"totp_secret"`
-	Host           string         `json:"host"`
-	Debug          bool           `json:"debug"`
+	Database        DatabaseStruct `json:"database"`
+	HCaptchaSecret  string         `json:"hcaptcha_secret"`
+	TurnstileSecret string         `json:"turnstile_secret"`
+	Captcha         string         `json:"captcha"`
+	TotpSecret      string         `json:"totp_secret"`
+	Host            string         `json:"host"`
+	Debug           bool           `json:"debug"`
 }
 
 type DatabaseStruct struct {

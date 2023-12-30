@@ -76,7 +76,7 @@ func HandlePostCountLog(c *gin.Context) {
 		c.JSON(http.StatusTeapot, gin.H{"code": -1, "message": "I'm a teapot"})
 		return
 	case 1:
-		if !service.VerifyhCaptcha(countLog.Token) {
+		if !service.VerifyCaptcha(countLog.Token) {
 			c.JSON(http.StatusBadRequest, gin.H{"code": -1, "message": "invalid token"})
 			return
 		}
