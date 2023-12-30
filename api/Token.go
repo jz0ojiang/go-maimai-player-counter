@@ -21,7 +21,7 @@ func HandlePostGenerateToken(c *gin.Context) {
 		})
 		return
 	}
-	if !service.VerifyhCaptcha(tokenRequest.Token) {
+	if !service.ValidateTotp(tokenRequest.Token) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code":    -1,
 			"message": "invalid token",
