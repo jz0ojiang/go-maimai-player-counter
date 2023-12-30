@@ -14,6 +14,7 @@ func GetCountsByCity(cityCode int) (map[string]int, error) {
 	}
 	var counts = make(map[string]int)
 	for _, arcade := range arcades {
+		ClearExpiredCountLogsByArcadeID(arcade.ID)
 		count, err := db.GetLatestCountByArcadeID(arcade.ID)
 		if err != nil {
 			counts[strconv.Itoa(arcade.ID)] = 0
@@ -62,16 +63,11 @@ func GetCountLogsByArcadeID(arcadeID int) ([]CountLog, error) {
 	if err != nil {
 		return nil, err
 	}
+	err = ClearExpiredCountLogsByArcadeID(arcadeID)
+	if err != nil {
+		return nil, err
+	}
 	if len(data) == 0 {
-		err = db.AddCountLog(db.CountLog{
-			ArcadeId:        arcadeID,
-			Count:           0,
-			UpdateTimestamp: zerotimestamp,
-			Type:            0,
-		})
-		if err != nil {
-			return nil, err
-		}
 		return []CountLog{{
 			ArcadeId:        arcadeID,
 			Count:           0,
@@ -81,10 +77,6 @@ func GetCountLogsByArcadeID(arcadeID int) ([]CountLog, error) {
 	}
 	var logs []CountLog
 	for _, v := range data {
-		if v.UpdateTimestamp < zerotimestamp {
-			db.DeleteCountLog(v.UpdateTimestamp)
-			continue
-		}
 		logs = append(logs, CountLog{
 			ArcadeId:        v.ArcadeId,
 			Count:           v.Count,
@@ -139,4 +131,27 @@ func GetAllCountLogs() ([]CountLog, error) {
 
 func DeleteAllCountLogs() error {
 	return db.DeleteAllCountLogs()
+}
+
+func ClearExpiredCountLogsByArcadeID(arcadeID int) error {
+	zerotimestamp := GetTodayZeroTimestamp()
+	data, err := db.GetCountLogsByArcadeID(arcadeID)
+	if err != nil {
+		return err
+	}
+	if len(data) == 0 {
+		err = db.AddCountLog(db.CountLog{
+			ArcadeId:        arcadeID,
+			Count:           0,
+			UpdateTimestamp: zerotimestamp,
+			Type:            0,
+		})
+		return err
+	}
+	for _, v := range data {
+		if v.UpdateTimestamp < zerotimestamp {
+			db.DeleteCountLog(v.UpdateTimestamp)
+		}
+	}
+	return nil
 }
