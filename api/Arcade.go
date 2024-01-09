@@ -140,7 +140,7 @@ func HandlePostUpdateAllArcade(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"code": -1, "message": "invalid token"})
 		return
 	}
-	err := service.CheckArcadeExistInWahlapAndUpdate()
+	err := service.UpdateArcadeListWithArcadeMap()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"code": -1, "message": err.Error()})
 		return

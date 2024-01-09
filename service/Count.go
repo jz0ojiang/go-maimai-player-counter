@@ -51,10 +51,7 @@ func GetCountLogByTimeStamp(timestamp int64) (CountLog, error) {
 
 func GetCountLogsByArcadeID(arcadeID int) ([]CountLog, error) {
 	if !CheckArcadeExistByArcadeID(arcadeID) {
-		if CheckArcadeExistInWahlapByArcadeID(arcadeID) {
-			arcade, _ := GetArcadeWithWahlapById(arcadeID)
-			CreateArcade(arcade)
-		} else {
+		if err := AddArcadeByArcadeIdWithArcadeMap(arcadeID); err != nil {
 			return nil, errors.New("arcade not found")
 		}
 	}
@@ -89,10 +86,7 @@ func GetCountLogsByArcadeID(arcadeID int) ([]CountLog, error) {
 
 func AddCountLog(count CountLog) error {
 	if !CheckArcadeExistByArcadeID(count.ArcadeId) {
-		if CheckArcadeExistInWahlapByArcadeID(count.ArcadeId) {
-			arcade, _ := GetArcadeWithWahlapById(count.ArcadeId)
-			CreateArcade(arcade)
-		} else {
+		if err := AddArcadeByArcadeIdWithArcadeMap(count.ArcadeId); err != nil {
 			return errors.New("arcade not found")
 		}
 	}

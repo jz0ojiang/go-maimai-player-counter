@@ -5,8 +5,9 @@ type Arcade struct {
 	Name         string
 	MachineCount int `gorm:"column:machineCount"`
 	Address      string
-	ProvinceCode int `gorm:"foreignKey;column:provinceCode"`
-	CityCode     int `gorm:"foreignKey;column:cityCode"`
+	ProvinceCode int   `gorm:"foreignKey;column:provinceCode"`
+	CityCode     int   `gorm:"foreignKey;column:cityCode"`
+	UpdatedAt    int64 `gorm:"column:updatedAt"`
 }
 
 func GetArcadeList() ([]Arcade, error) {

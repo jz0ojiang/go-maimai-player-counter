@@ -19,6 +19,31 @@ func ToFullCode(code int) string {
 	return fmt.Sprintf("%s%s", strconv.Itoa(code), strings.Repeat("0", 12-len(strconv.Itoa(code))))
 }
 
+func ToShortCode(fullCode string) int {
+	// 110100000000 => 1101
+	// 110000000000 => 11
+	if len(fullCode) != 12 {
+		return 0
+	}
+	code, err := strconv.Atoi(fullCode[0:4])
+	if err != nil {
+		return 0
+	}
+	// 1100 => 11
+	if code%100 == 0 {
+		code = code / 100
+	}
+	return code
+}
+
+func RFC3339ToTimestamp(timeStr string) int64 {
+	t, err := time.Parse(time.RFC3339, timeStr)
+	if err != nil {
+		return 0
+	}
+	return t.UnixNano() / 1e6
+}
+
 func GetCityByAddress(address string, province string) City {
 	provinceInfo, err := db.GetProvinceByName(province)
 	if err != nil {
