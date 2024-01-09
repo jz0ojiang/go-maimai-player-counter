@@ -26,10 +26,12 @@ var config ConfigStruct = ConfigStruct{
 		Sqlite:  "data/pcdata.sqlite3",
 		Leveldb: "data/counter",
 	},
-	HCaptchaSecret: "",
-	TotpSecret:     "",
-	Host:           ":8080",
-	Debug:          false,
+	Captcha:         "hCaptcha",
+	HCaptchaSecret:  "",
+	TurnstileSecret: "",
+	TotpSecret:      "",
+	Host:            ":8080",
+	Debug:           false,
 }
 
 func init() {
@@ -71,6 +73,10 @@ func (ConfigStruct) GetHCaptchaSecret() string {
 	return config.HCaptchaSecret
 }
 
+func (ConfigStruct) GetTurnstileSecret() string {
+	return config.TurnstileSecret
+}
+
 func (ConfigStruct) GetTotpSecret() string {
 	return config.TotpSecret
 }
@@ -81,4 +87,8 @@ func (ConfigStruct) GetHost() string {
 
 func (ConfigStruct) GetDebug() bool {
 	return config.Debug
+}
+
+func (ConfigStruct) GetCaptcha() string {
+	return config.Captcha
 }

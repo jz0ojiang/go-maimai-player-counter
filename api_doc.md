@@ -41,6 +41,7 @@ API 文档
   1. [getCount（获取机厅人数）](#1-getcount)
      - [成功示例](#i-example-request--5)
      - [失败示例](#ii-example-request--3)
+  1. [getCountByCity（获取城市出勤人数）](#2-getcountbycity)
   1. [logCount（记录机厅人数）](#2-logcount)
      - [成功示例](#i-example-request--6)
      - [失败示例（token 错误）](#ii-example-request-token)
@@ -50,7 +51,7 @@ API 文档
   1. [createCustomArcade（创建机厅）](#1-createcustomarcade)
      - [示例](#i-example-request--7)
   1. [deleteArcade（删除机厅）](#2-deletearcade)
-  1. [updateArcade（从华立更新机厅）](#3-updatearcade)
+  1. [updateArcade（从音游地图更新机厅）](#3-updatearcade)
   1. [generateToken（生成 token）](#4-generatetoken-token)
 
 ---
@@ -698,7 +699,102 @@ URL: {{url}}/getCount/:arcadeID
 
 <br>
 
-### 2. logCount（记录机厅人数）
+### 2. getCountByCity（获取城市出勤人数）
+
+【主要给网页工具使用，没有失败示例】
+
+**_Endpoint:_**
+
+```bash
+Method: GET
+Type:
+URL: {{url}}/getCountByCity/:arcadeID
+```
+
+**_URL variables:_**
+
+| Key      | Value | Description |
+| -------- | ----- | ----------- |
+| arcadeID | 1101  |             |
+
+**_More example Requests/Responses:_**
+
+#### I. Example Request: 成功示例
+
+**_Query:_**
+
+| Key      | Value | Description |
+| -------- | ----- | ----------- |
+| arcadeID | 1101  |             |
+
+**_Body: None_**
+
+#### I. Example Response: 成功示例
+
+```js
+{
+    "code": 0,
+    "data": {
+        "1011": 0,
+        "1018": 0,
+        "1022": 0,
+        "1110": 0,
+        "1169": 0,
+        "1258": 0,
+        "1279": 0,
+        "1289": 0,
+        "1366": 0,
+        "1403": 0,
+        "1440": 0,
+        "1468": 0,
+        "1476": 0,
+        "1485": 0,
+        "1504": 0,
+        "1525": 0,
+        "1533": 0,
+        "1601": 0,
+        "1615": 0,
+        "1691": 0,
+        "1740": 0,
+        "1808": 0,
+        "1813": 0,
+        "1852": 0,
+        "1861": 0,
+        "1920": 0,
+        "1984": 0,
+        "2007": 0,
+        "2036": 0,
+        "2051": 0,
+        "2069": 0,
+        "2072": 0,
+        "2076": 0,
+        "2218": 0,
+        "2228": 0,
+        "2258": 0,
+        "2266": 0,
+        "2326": 0,
+        "2337": 0,
+        "2345": 0,
+        "2381": 0,
+        "2407": 0,
+        "2439": 0,
+        "2482": 0,
+        "2506": 0,
+        "2521": 0,
+        "2569": 0,
+        "2592": 0,
+        "2622": 0
+    },
+    "message": "success"
+}
+```
+
+**_Status Code:_** 200
+
+<br>
+
+
+### 3. logCount（记录机厅人数）
 
 **_Endpoint:_**
 
@@ -830,6 +926,8 @@ URL: {{url}}/logCount
 
 ### 1. createCustomArcade（创建机厅）
 
+【即将弃用，机厅数据前往全国音游地图修改】
+
 **_Endpoint:_**
 
 ```bash
@@ -883,6 +981,8 @@ URL: {{url}}/createCustomArcade
 
 ### 2. deleteArcade（删除机厅）
 
+【即将弃用】
+
 **_Endpoint:_**
 
 ```bash
@@ -900,7 +1000,7 @@ URL: {{url}}/deleteArcade
 }
 ```
 
-### 3. updateArcade（从华立更新机厅）
+### 3. updateArcade（从音游地图更新机厅）
 
 **_Endpoint:_**
 
