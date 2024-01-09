@@ -41,5 +41,10 @@ func main() {
 	// Token
 	r.POST("/generateToken", api.HandlePostGenerateToken)
 
+	// Redirect / to https://mpc.im0o.top
+	r.GET("/", func(c *gin.Context) {
+		c.Redirect(301, "https://mpc.im0o.top")
+	})
+
 	r.Run(conf.GetConfig().GetHost())
 }
