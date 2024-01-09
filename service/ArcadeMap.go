@@ -152,6 +152,9 @@ func GetArcadeListWithArcadeMap() ([]Arcade, error) {
 	}
 	var arcades []Arcade
 	for _, arcade := range rawarcades {
+		if (arcade.Shop == GetDataByGameResponseShop{}) {
+			continue
+		}
 		province, _ := GetProvinceByCode(arcade.Shop.ProvinceCode)
 		city, _ := GetCityByCode(arcade.Shop.CityCode)
 		arcades = append(arcades, Arcade{
@@ -286,10 +289,16 @@ func GetArcadeByCodeWithArcadeMap[T string | int | int64](arcadeCode T) (Arcade,
 	}
 	province, _ := GetProvinceByCode(data.Props.Shop.ProvinceCode)
 	city, _ := GetCityByCode(data.Props.Shop.CityCode)
+	machineCount := 0
+	for _, v := range data.Props.Shop.Arcades {
+		if v.TitleID == 1 {
+			machineCount += int(v.Quantity)
+		}
+	}
 	return Arcade{
 		ID:           int(data.Props.Shop.ID),
 		Name:         data.Props.Shop.Name,
-		MachineCount: len(data.Props.Shop.Arcades),
+		MachineCount: machineCount,
 		Province:     province,
 		City:         city,
 		Address:      data.Props.Shop.Address,
